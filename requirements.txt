@@ -13,3 +13,6 @@ heroku3
 pynewtonmath
 pytz
 aiohttp
+youtube-search-python==1.4.6
+yt-dlp
+youtube_search
