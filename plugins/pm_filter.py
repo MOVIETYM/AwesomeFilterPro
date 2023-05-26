@@ -647,7 +647,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.message.edit_reply_markup(reply_markup)
     await query.answer('Sᴜᴘᴘᴏʀᴛ TᴀᴍɪʟᴀɴBᴏᴛsZ')
 
-
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
         message = msg
@@ -674,8 +673,7 @@ async def auto_filter(client, msg, spoll=False):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"[{get_size(file.file_size)}] {file.file_name}", 
-                    url=await get_shortlink(f"https://telegram.dog/{temp.U_NAME}?start=files_{file.file_id}")
+                    text=f"[{get_size(file.file_size)}] {file.file_name}", callback_data=f'{pre}#{file.file_id}'
                 ),
             ]
             for file in files
@@ -684,29 +682,24 @@ async def auto_filter(client, msg, spoll=False):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"[{get_size(file.file_size)}] {file.file_name}", 
-                    url=await get_shortlink(f"https://telegram.dog/{temp.U_NAME}?start=files_{file.file_id}")
+                    text=f"{file.file_name}",
+                    callback_data=f'{pre}#{file.file_id}',
                 ),
                 InlineKeyboardButton(
-                    text=f"[{get_size(file.file_size)}] {file.file_name}", 
-                    url=await get_shortlink(f"https://telegram.dog/{temp.U_NAME}?start=files_{file.file_id}")
+                    text=f"{get_size(file.file_size)}",
+                    callback_data=f'{pre}#{file.file_id}',
                 ),
             ]
             for file in files
         ]
 
-    btn.insert(0, 
-        [
-            InlineKeyboardButton('🔋 Hᴏᴡ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ 🔋', url='https://t.me/Sharath_Links/13')
-        ]
-    )
     if offset != "":
         key = f"{message.chat.id}-{message.id}"
         BUTTONS[key] = search
         req = message.from_user.id if message.from_user else 0
         btn.append(
             [InlineKeyboardButton(text=f"🗓 1/{math.ceil(int(total_results) / 10)}", callback_data="pages"),
-             InlineKeyboardButton(text="Nᴇxᴛ ›››", callback_data=f"next_{req}_{key}_{offset}")]
+             InlineKeyboardButton(text="NEXT ⏩", callback_data=f"next_{req}_{key}_{offset}")]
         )
     else:
         btn.append(
@@ -765,7 +758,7 @@ async def auto_filter(client, msg, spoll=False):
                 await hmm.delete()
         except Exception as e:
             logger.exception(e)
-            await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn))
+            fek = await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn))
             if AUTO_DELETE:
                 await asyncio.sleep(AUTO_DELETE_SECONDS)
                 await fek.delete()
